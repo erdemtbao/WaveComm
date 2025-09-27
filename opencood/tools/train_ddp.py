@@ -30,8 +30,13 @@ def train_parser():
     opt = parser.parse_args()
     return opt
 
+# def set_seed(seed, use_cuda=True):
+#     torch.manual_seed(seed)
+#     if use_cuda:
+#         torch.cuda.manual_seed_all(seed)
 
 def main():
+    # set_seed(3407) #3407
     opt = train_parser()
     hypes = yaml_utils.load_yaml(opt.hypes_yaml, opt)
     multi_gpu_utils.init_distributed_mode(opt)

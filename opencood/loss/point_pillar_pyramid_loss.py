@@ -56,7 +56,35 @@ class PointPillarPyramidLoss(PointPillarDepthLoss):
 
         occ_single_list = output_dict['occ_single_list']
         occ_loss = self.calc_occ_loss(occ_single_list, positives, negatives, batch_size)
-        total_loss = occ_loss
+        
+
+        # high_freq_list = output_dict['high_freq_list']
+        # high_freq_loss = self.calc_high_freq_occ_loss(high_freq_list, positives, negatives, batch_size)
+        
+        # recon_x = output_dict['recon_x']
+        # ori_x = output_dict['ori_x']
+        # # mu = output_dict['mu']
+        # # logvar = output_dict['logvar']
+        # recon_loss = F.mse_loss(recon_x, ori_x, reduction='mean')
+        # kl_loss = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+        # kl_loss = kl_loss / ori_x.size(0)  # 平均化KL损失
+        # 使用beta调节KL损失的权重（Annealed KL Divergence）
+        # print(recon_loss,kl_loss)
+        # recon_loss = recon_loss + 0.5 * kl_loss
+        # print("recon_loss:",recon_loss)
+        # total_loss = occ_loss + recon_loss
+
+        # ref_token_fuse = output_dict['ori'] #bth,h,w,c
+        # # # bth,_,_,_ = ref_token_fuse.shape
+        # new_heter = output_dict['new_heter'] #bth,h,w,c
+        # recon_loss = F.mse_loss(new_heter ,ref_token_fuse , reduction='mean')
+        distillation_loss = output_dict['distillation_loss']
+        # print(occ_loss,0.1*(distillation_loss['recon_loss']+ distillation_loss['adv_loss']+ distillation_loss['d_loss']))
+        
+        
+        total_loss = occ_loss + 0.01*(distillation_loss['recon_loss']+ 
+                                     distillation_loss['adv_loss']+ 
+                                     distillation_loss['d_loss'] ) #+ 0.001*high_freq_loss #+ recon_loss
         self.loss_dict = {
             'pyramid_loss': occ_loss.item(),
             'total_loss': total_loss.item()
@@ -64,6 +92,46 @@ class PointPillarPyramidLoss(PointPillarDepthLoss):
 
         return total_loss
 
+
+    def calc_high_freq_occ_loss(self, occ_single_list, positives, negatives, batch_size):
+        total_occ_loss = 0
+        occ_positives = torch.logical_or(positives[...,0], positives[...,1]).unsqueeze(-1).float() # N, H, W
+        occ_negatives = torch.logical_and(negatives[...,0], negatives[...,1]).unsqueeze(-1).float() # N, H, W
+
+
+        for i, occ_preds_single in enumerate(occ_single_list):
+            """
+            occ_preds_single: N, 1, H, W
+
+            occ_positives: N, H, W, 1
+            occ_negatives: N, H, W, 1
+
+            """
+
+            high_freq_relative_downsample = occ_positives.shape[1]//occ_single_list[i].shape[2]
+
+            positives_level = F.max_pool2d(occ_positives.permute(0,3,1,2), kernel_size=high_freq_relative_downsample).permute(0,2,3,1)
+            negatives_level = 1 - F.max_pool2d((1 - occ_negatives).permute(0,3,1,2), kernel_size=high_freq_relative_downsample).permute(0,2,3,1)
+
+            occ_labls = positives_level.view(batch_size, -1, 1)
+            positives_level = occ_labls
+            negatives_level = negatives_level.view(batch_size, -1, 1)
+
+            pos_normalizer = positives_level.sum(1, keepdim=True).float()
+
+            occ_preds = occ_preds_single.permute(0, 2, 3, 1).contiguous() \
+                        .view(batch_size, -1,  1)
+            occ_weights = positives_level * self.pos_cls_weight + negatives_level * 1.0
+            occ_weights /= torch.clamp(pos_normalizer, min=1.0)
+            occ_loss = sigmoid_focal_loss(occ_preds, occ_labls, weights=occ_weights, **self.cls)
+            occ_loss = occ_loss.sum() / batch_size
+            occ_loss *= self.pyramid_weight[i]
+
+            total_occ_loss += occ_loss
+
+
+        return total_occ_loss
+    
 
     def calc_occ_loss(self, occ_single_list, positives, negatives, batch_size):
         total_occ_loss = 0

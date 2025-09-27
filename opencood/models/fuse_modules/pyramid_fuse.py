@@ -34,9 +34,9 @@ def weighted_fuse(x, score, record_len, affine_matrix, align_corners):
 
     _, C, H, W = x.shape
     B, L = affine_matrix.shape[:2]
-    split_x = regroup(x, record_len)
+    split_x = regroup(x, record_len) # tuple((2,64,128,256),(2,64,128,256)) 这里的2指的是agent个数
     # score = torch.sum(score, dim=1, keepdim=True)
-    split_score = regroup(score, record_len)
+    split_score = regroup(score, record_len)# tuple((2,1,128,256),(2,1,128,256)) 这里的2指的是agent个数
     batch_node_features = split_x
     out = []
     # iterate each batch
@@ -77,6 +77,35 @@ class PyramidFusion(ResNetBEVBackbone):
                                         inplanes = model_cfg.get('inplanes', 64),
                                         groups=32,
                                         width_per_group=4)
+            
+            # # 采用sknet
+            # from opencood.models.sub_modules.sknet import SKNet50
+            # self.resnet = SKNet50(
+            #     layers = self.model_cfg['layer_nums'],
+            #     layer_strides = self.model_cfg['layer_strides'],
+            #     num_filters=self.model_cfg['num_filters'],
+            # )
+
+            # # 采用inceptionnext
+            # from opencood.models.sub_modules.inceptionnext import inceptionnext_tiny,inceptionnext_small
+            # self.resnet = inceptionnext_tiny(pretrained=False)
+            # self.resnet = inceptionnext_small(pretrained=False)
+
+            
+            # # 采用ResNeSt
+            # from opencood.models.sub_modules.resblock import ResNeSt,BottleneckV2
+            # BottleneckV2.expansion = 1
+            # self.resnet = ResNeSt(BottleneckV2, 
+            #                       layers= self.model_cfg['layer_nums'],
+            #                       layer_strides= self.model_cfg['layer_strides'],
+            #                       num_filters=self.model_cfg['num_filters'],
+            #                       inplanes = model_cfg.get('inplanes', 64),
+            #                       radix=2, 
+            #                       groups=1, bottleneck_width=64,  # groups=1, bottleneck_width=64,
+            #                       #  deep_stem=False, stem_width=32, 
+            #                       avg_down=True,
+            #                       avd=True, avd_first=False)
+
         self.align_corners = model_cfg.get('align_corners', False)
         print('Align corners: ', self.align_corners)
         
