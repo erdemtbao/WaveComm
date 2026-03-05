@@ -12,8 +12,10 @@ WaveComm is a novel collaborative perception framework that achieves communicati
 <img src="assets/framework.png" width="80%">
 </div>
 
+## Video
+
 <div align="center">
-<img src="assets/ICRA26_WaveComm.gif" width="80%">
+<img src="assets/ICRA2026_WaveComm.gif" width="80%">
 </div>
 
 ## Key Features
