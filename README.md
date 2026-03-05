@@ -27,7 +27,7 @@ WaveComm is a novel collaborative perception framework that achieves communicati
   - Perceptual Loss (semantic-level)
   - Adversarial Loss (distributional-level)
 - **Lightweight Generator**: A lightweight neural network that reconstructs high-frequency details from transmitted low-frequency components.
-- **通信效率**: Reduces communication volume to **86.3%** (OPV2V) and **87.0%** (DAIR-V2X) of the original while maintaining state-of-the-art performance.
+- **Communication efficiency**: Reduces communication volume to **86.3%** (OPV2V) and **87.0%** (DAIR-V2X) of the original while maintaining state-of-the-art performance.
 
 ## Method
 
