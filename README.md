@@ -1,6 +1,6 @@
 # WaveComm
 
-**[ICRA2026] WaveComm: Lightweight Communication of BEV Feature Maps for Collaborative Perception via Wavelet Feature Distillation**
+**[ICRA2026] WaveComm: Lightweight Communication for Collaborative Perception via Wavelet Feature Distillation**
 
 > This is the official implementation of WaveComm, a wavelet-based communication framework for collaborative perception.
 
