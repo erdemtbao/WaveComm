@@ -47,27 +47,119 @@ The Wavelet Feature Distillation Module consists of two parts:
 
 ### OPV2V Dataset
 
-| Method | AP50 | AP70 | Comm (MB) |
-|--------|------|------|-----------|
-| No Collaboration | 0.405 | 0.216 | 0.0 |
-| F-Cooper | 0.469 | 0.219 | 22.0 |
-| DiscoNet | 0.517 | 0.234 | 22.0 |
-| AttFusion | 0.529 | 0.252 | 22.0 |
-| V2XViT | 0.603 | 0.289 | 22.0 |
-| CoBEVT | 0.571 | 0.261 | 22.0 |
-| HM-ViT | 0.643 | 0.370 | 22.0 |
-| **WaveComm (ours)** | **0.681** | **0.451** | **19.0** |
+<table>
+    <tr>
+        <th rowspan="2" style="text-align: center;">Method</th>
+        <th colspan="3" style="text-align: center;">Camera-based</th>
+        <th colspan="3" style="text-align: center;">LiDAR-based</th>
+    </tr>
+    <tr>
+        <th style="text-align: center;">AP50</th>
+        <th style="text-align: center;">AP70</th>
+        <th style="text-align: center;">Comm</th>
+        <th style="text-align: center;">AP50</th>
+        <th style="text-align: center;">AP70</th>
+        <th style="text-align: center;">Comm</th>
+    </tr>
+    <tr>
+        <td>No Collaboration</td>
+        <td>0.405</td><td>0.216</td><td>0.0</td>
+        <td>0.782</td><td>0.634</td><td>0.0</td>
+    </tr>
+    <tr>
+        <td>F-Cooper</td>
+        <td>0.469</td><td>0.219</td><td>22.0</td>
+        <td>0.763</td><td>0.481</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td>DiscoNet</td>
+        <td>0.517</td><td>0.234</td><td>22.0</td>
+        <td>0.882</td><td>0.737</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td>AttFusion</td>
+        <td>0.529</td><td>0.252</td><td>22.0</td>
+        <td>0.878</td><td>0.751</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td>V2X-ViT</td>
+        <td>0.603</td><td>0.289</td><td>22.0</td>
+        <td>0.917</td><td>0.790</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td>CoBEVT</td>
+        <td>0.571</td><td>0.261</td><td>22.0</td>
+        <td>0.935</td><td>0.821</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td>HM-ViT</td>
+        <td>0.643</td><td>0.370</td><td>22.0</td>
+        <td>0.950</td><td>0.873</td><td>24.0</td>
+    </tr>
+    <tr>
+        <td><b>WaveComm (ours)</b></td>
+        <td><b>0.681</b></td><td><b>0.451</b></td><td><b>19.0</b></td>
+        <td><b>0.965</b></td><td><b>0.926</b></td><td><b>21.0</b></td>
+    </tr>
+</table>
 
 ### DAIR-V2X Dataset
 
-| Method | AP30 | AP50 | Comm (MB) |
-|--------|------|------|-----------|
-| No Collaboration | 0.014 | 0.004 | 0.0 |
-| F-Cooper | 0.115 | 0.026 | 23.0 |
-| DiscoNet | 0.083 | 0.017 | 23.0 |
-| V2XViT | 0.198 | 0.057 | 23.0 |
-| HM-ViT | 0.163 | 0.044 | 23.0 |
-| **WaveComm (ours)** | **0.274** | **0.123** | **20.0** |
+<table>
+    <tr>
+        <th rowspan="2" style="text-align: center;">Method</th>
+        <th colspan="3" style="text-align: center;">Camera-based</th>
+        <th colspan="3" style="text-align: center;">LiDAR-based</th>
+    </tr>
+    <tr>
+        <th style="text-align: center;">AP30</th>
+        <th style="text-align: center;">AP50</th>
+        <th style="text-align: center;">Comm</th>
+        <th style="text-align: center;">AP30</th>
+        <th style="text-align: center;">AP50</th>
+        <th style="text-align: center;">Comm</th>
+    </tr>
+    <tr>
+        <td>No Collaboration</td>
+        <td>0.014</td><td>0.004</td><td>0.0</td>
+        <td>0.421</td><td>0.405</td><td>0.0</td>
+    </tr>
+    <tr>
+        <td>F-Cooper</td>
+        <td>0.115</td><td>0.026</td><td>23.0</td>
+        <td>0.723</td><td>0.620</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td>DiscoNet</td>
+        <td>0.083</td><td>0.017</td><td>23.0</td>
+        <td>0.746</td><td>0.685</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td>AttFusion</td>
+        <td>0.094</td><td>0.021</td><td>23.0</td>
+        <td>0.738</td><td>0.673</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td>V2X-ViT</td>
+        <td>0.198</td><td>0.057</td><td>23.0</td>
+        <td>0.785</td><td>0.521</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td>CoBEVT</td>
+        <td>0.182</td><td>0.042</td><td>23.0</td>
+        <td>0.787</td><td>0.692</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td>HM-ViT</td>
+        <td>0.163</td><td>0.044</td><td>23.0</td>
+        <td>0.818</td><td>0.761</td><td>23.0</td>
+    </tr>
+    <tr>
+        <td><b>WaveComm (ours)</b></td>
+        <td><b>0.274</b></td><td><b>0.123</b></td><td><b>20.0</b></td>
+        <td><b>0.831</b></td><td><b>0.790</b></td><td><b>20.0</b></td>
+    </tr>
+</table>
 
 ## Installation
 
