@@ -29,13 +29,7 @@ WaveComm is a novel collaborative perception framework that achieves communicati
 - **Lightweight Generator**: A lightweight neural network that reconstructs high-frequency details from transmitted low-frequency components.
 - **Communication efficiency**: Reduces communication volume to **86.3%** (OPV2V) and **87.0%** (DAIR-V2X) of the original while maintaining state-of-the-art performance.
 
-## Method
-
-<div align="center">
-<img src="assets/pipeline.png" width="80%">
-</div>
-
-### Wavelet Feature Distillation Module
+## Wavelet Feature Distillation Module
 
 The Wavelet Feature Distillation Module consists of two parts:
 
@@ -272,10 +266,10 @@ WaveComm/
 ## Citation
 
 ```latex
-@article{wavecomm2026,
-  title={WaveComm: Lightweight Communication of BEV Feature Maps for Collaborative Perception via Wavelet Feature Distillation},
-  author={},
-  journal={},
+@article{bao2026wavecomm,
+  title={WaveComm: Lightweight Communication for Collaborative Perception via Wavelet Feature Distillation},
+  author={Bao, Erdemt and Yang, Jin},
+  journal={arXiv preprint arXiv:2603.13365},
   year={2026}
 }
 ```
